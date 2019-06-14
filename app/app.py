@@ -64,6 +64,24 @@ def linchpin_delete_workspace():
         return jsonify(status=409, message=str(e))
 
 
+@app.route('/workspace/fetch', methods=['POST'])
+def linchpin_fetch_workspace():
+    try:
+        data = request.json  # Get request body
+        name = data['name']
+        url = data['url']
+        # Checking if workspace already exists
+        if os.path.exists(WORKING_DIR + "/" + name):
+            return jsonify(status="workspace with the same name found try again by renaming")
+        else:
+            os.chdir(os.path.join(app.root_path + WORKING_DIR + name))
+            output = subprocess.Popen(["linchpin", "fetch" + WORKING_DIR + name, url], stdout=subprocess.PIPE)
+            return jsonify(name=data["name"], status="Workspace created successfully", Code=output.returncode)
+    except Exception as e:
+        app.logger.error(e)
+        return jsonify(status=409, message=str(e))
+
+
 if __name__ == "__main__":
     handler = RotatingFileHandler(LOGGER_FILE, maxBytes=10000, backupCount=1)
     handler.setLevel(logging.INFO)
