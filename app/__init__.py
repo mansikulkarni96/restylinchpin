@@ -6,9 +6,11 @@ import shutil
 import json
 import logging
 from logging.handlers import RotatingFileHandler
+from tinydb import TinyDB, Query
 
 app = Flask(__name__)
 
+db = TinyDB('db.json')
 # Reading directory path from config.yml file
 
 with open('config.yml', 'r') as f:
