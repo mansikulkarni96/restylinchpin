@@ -49,7 +49,33 @@ Response:<br>
 "api_key":"api_key value"<br>
 }<br>
 This api_key will be verified by passing a key:api_key and value: api_key value obtained above,in the request headers during each of the API calls including user and workspace actions to grant resource access by determining the access rights of the current user. Admin users can access all resources whereas other resources are only accessible to the owner of that resource.
+<br><br>
+<b>Upload/create credentials</b><br>
+POST /users/username/credentials<br>
+RequestBody:<br>
+{ file : text or attached file<br>
+file_name : name,<br>
+encrypted: boolean,<br>
+vault_pass: ansible vault password<br>
+}<br>
+return : response with successful credential upload status<br>
+<br>
+<b>List credentials</b><br>
+GET /users/username/credentials/file_name<br>
+return : response with encrypted credentials from file<br>
 
+<b>Delete credentials</b><br>
+DELETE /users/username/credentials/file-name<br>
+return : response with successful delete status<br>
+<br>
+<b>Update credentials</b><br>
+PUT /users/username/credentials/file_name<br>
+RequestBody: { file : updated text or updated attached file<br>
+encrypted: boolean,<br>
+vault_pass: ansible vault password<br>
+}<br>
+return : response with successful credential update status<br>
+<br>
 ## Linchpin Project
 LinchPin is a simple cloud orchestration tool. Its intended purpose is managing cloud resources across multiple infrastructures. These resources can be provisioned, decommissioned, and configured all using declarative data and a simple command-line interface.
 
